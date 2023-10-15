@@ -1,5 +1,6 @@
 import React, { Component } from 'react'
 import NewsItem from './NewsItem'
+import Spinner from './Spinner';
 
 export class News extends Component {
   articles = [
@@ -242,44 +243,81 @@ export class News extends Component {
   constructor()
     {
       super();
-      console.log("hellow I am a const")
       this.state=
       {
-        articles: this.articles
+        articles: [],
+        page:1,
+        totalArticles:0,
+        loading:false
       }
-      //console.log(this.props.articles)
+      this.OnLeftBtnClicked = this.OnLeftBtnClicked.bind(this);
+      this.OnRightBtnClicked = this.OnRightBtnClicked.bind(this);
+      console.log(this.state)
     }
-    async componentDidMount()
+    async GetNewsData()
     {
-      let url="https://newsapi.org/v2/top-headlines?country=in&apiKey=dfd0b5411e3344a0a4ee010fc40631de"
+      await this.setState({loading:true, articles:[]})
+      let url=`https://newsapi.org/v2/top-headlines?country=in&apiKey=dfd0b5411e3344a0a4ee010fc40631de&page=${this.state.page}&pageSize=${this.props.pageSize}`
       let data = await fetch(url);
       let jsonData = await data.json();
-      //console.log(jsonData);
-      this.setState({articles: jsonData.articles})
-
+      await this.setState({articles: jsonData.articles,
+         totalArticles:jsonData.totalResults,
+        loading:false })
     }
+    ReachedEndOfPage() {
+      return this.state.page+1 > Math.ceil(this.state.totalArticles/this.state.pageSize)
+    }
+    OnLeftBtnClicked =async()=>
+    {
+          await this.setState({page:this.state.page-1 })
+          await this.GetNewsData();
+    }
+    OnRightBtnClicked =async ()=>
+    {
+      console.log("Right Btn Clicked")
+      if(!this.ReachedEndOfPage())
+      {
+          await this.setState({page:this.state.page+1 })
+          await this.GetNewsData()
+      }
+    }
+   
+    async componentDidMount()
+    {
+      await this.GetNewsData();
+    } 
+    
   render() {
     
     return (
       <div>
        <h1>
         <div  className='container mx-3 my-2'>
-        <b>NewsNest</b> - News Headlines
+            <b>NewsNest</b> - News Headlines
         </div>
        </h1>
+
+       { this.state.loading && <Spinner/>}
       
 
        <div className='container my-3'>
         <div className='row align-items-start'>
         {
             this.state.articles.map((element) => 
-            <div className='col-md-4 my-2' key={element.url}>
+            <div className='col-md-3 my-2' key={element.url}>
               <NewsItem  title={element.title? element.title : ""} description={element.description? element.description:""} newsURL={element.url} imageUrl={element.urlToImage? element.urlToImage : "https://media.istockphoto.com/id/1657877667/photo/business-news-trends-graphs-and-charts-digital-concept.webp?b=1&s=170667a&w=0&k=20&c=3Yssg8i_3ybB5Cj0CjX43NepTUFE5HkqpPZl-1cEPUI="}/>
             </div>
             )
         }
         </div>
+
        </div>
+        <div className="hstack gap-3 mx-4 my-4">
+          <button type="button" disabled={this.state.page<=1} className="btn btn-primary p-2" onClick={this.OnLeftBtnClicked}> <b>&larr;</b> Left</button>
+         
+          <button type="button" disabled={this.ReachedEndOfPage()}className="btn btn-primary p-2 ms-auto" onClick={this.OnRightBtnClicked}>Right  <b>&rarr;</b> </button>
+        </div>
+
       </div>
     )
   }
