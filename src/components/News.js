@@ -1,6 +1,7 @@
 import React, { Component } from 'react'
 import NewsItem from './NewsItem'
 import Spinner from './Spinner';
+import PropTypes from 'prop-types'
 
 export class News extends Component {
   articles = [
@@ -240,6 +241,15 @@ export class News extends Component {
       "content": "After arriving in Ahmedabad for the blockbuster clash between India and Pakistan at the ICC World Cup 2023, Indian head coach Rahul Dravid headed straight to the Narendra Modi Stadium on Thursday. Fr… [+2402 chars]"
     }
   ];
+  static defaultProps=
+  {
+    country:'in',
+    pageSize:6
+  }
+  static propTypes={
+    country : PropTypes.string,
+    pageSize:PropTypes.number,
+  }
   constructor()
     {
       super();
@@ -257,7 +267,7 @@ export class News extends Component {
     async GetNewsData()
     {
       await this.setState({loading:true, articles:[]})
-      let url=`https://newsapi.org/v2/top-headlines?country=in&apiKey=dfd0b5411e3344a0a4ee010fc40631de&page=${this.state.page}&pageSize=${this.props.pageSize}`
+      let url=`https://newsapi.org/v2/top-headlines?country=${this.props.country}&category=${this.props.category}&apiKey=dfd0b5411e3344a0a4ee010fc40631de&page=${this.state.page}&pageSize=${this.props.pageSize}`
       let data = await fetch(url);
       let jsonData = await data.json();
       await this.setState({articles: jsonData.articles,
