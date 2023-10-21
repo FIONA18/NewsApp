@@ -315,7 +315,8 @@ export class News extends Component {
         {
             this.state.articles.map((element) => 
             <div className='col-md-3 my-2' key={element.url}>
-              <NewsItem  title={element.title? element.title : ""} description={element.description? element.description:""} newsURL={element.url} imageUrl={element.urlToImage? element.urlToImage : "https://media.istockphoto.com/id/1657877667/photo/business-news-trends-graphs-and-charts-digital-concept.webp?b=1&s=170667a&w=0&k=20&c=3Yssg8i_3ybB5Cj0CjX43NepTUFE5HkqpPZl-1cEPUI="}/>
+              <NewsItem  title={element.title? element.title : ""} description={element.description? element.description:""} newsURL={element.url} imageUrl={element.urlToImage? element.urlToImage : "https://media.istockphoto.com/id/1657877667/photo/business-news-trends-graphs-and-charts-digital-concept.webp?b=1&s=170667a&w=0&k=20&c=3Yssg8i_3ybB5Cj0CjX43NepTUFE5HkqpPZl-1cEPUI="}
+              author={element.author} date = {element.publishedAt} source={element.source.name}/>
             </div>
             )
         }
