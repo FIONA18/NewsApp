@@ -250,9 +250,14 @@ export class News extends Component {
     country : PropTypes.string,
     pageSize:PropTypes.number,
   }
-  constructor()
+  CatipatizeCategory=(string)=>
+  {
+    return string.charAt(0).toUpperCase() + string.slice(1);
+  }
+
+  constructor(props)
     {
-      super();
+      super(props);
       this.state=
       {
         articles: [],
@@ -263,6 +268,7 @@ export class News extends Component {
       this.OnLeftBtnClicked = this.OnLeftBtnClicked.bind(this);
       this.OnRightBtnClicked = this.OnRightBtnClicked.bind(this);
       console.log(this.state)
+      document.title =  'NewsNest - '+ this.CatipatizeCategory(props.category);
     }
     async GetNewsData()
     {
@@ -303,7 +309,7 @@ export class News extends Component {
       <div>
        <h1>
         <div  className='container mx-3 my-2'>
-            <b>NewsNest</b> - News Headlines
+            <b>NewsNest</b> {` -  ${this.CatipatizeCategory(this.props.category)} Top Headlines`} 
         </div>
        </h1>
 

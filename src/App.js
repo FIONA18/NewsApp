@@ -11,9 +11,8 @@ import {
 
 
 export default class App extends Component {
-  
+  pageSize=8;
   render() {
-    const pageSize=8;
     return (
       <Router>
       <div>
@@ -21,36 +20,36 @@ export default class App extends Component {
         <Routes>
             <Route
               path="/business"
-              element={<News pageSize={pageSize} category={'business'} country={'in'}/>}
+              element={<News pageSize={this.pageSize} category={'business'} country={'in'}/>}
             />
             <Route
                       path="/entertainment"
-                      element={<News key='entertainment' pageSize={pageSize} category={'entertainment'} country={'in'}/>}
+                      element={<News key='entertainment' pageSize={this.pageSize} category={'entertainment'} country={'in'}/>}
                     />
             <Route
                       path="/"
-                      element={<News key='general' pageSize={pageSize} category={'general'} country={'in'}/>}
+                      element={<News key='general' pageSize={this.pageSize} category={'general'} country={'in'}/>}
                     />
           
             <Route
                       path="/general"
-                      element={<News key='general' pageSize={pageSize} category={'general'} country={'in'}/>}
+                      element={<News key='general' pageSize={this.pageSize} category={'general'} country={'in'}/>}
                     />
             <Route
                       path="/health"
-                      element={<News key='health' pageSize={pageSize} category={'health'} country={'in'}/>}
+                      element={<News key='health' pageSize={this.pageSize} category={'health'} country={'in'}/>}
                     />
             <Route
                       path="/science"
-                      element={<News key='science' pageSize={pageSize} category={'science'} country={'in'}/>}
+                      element={<News key='science' pageSize={this.pageSize} category={'science'} country={'in'}/>}
                     />
             <Route
                       path="/sports"
-                      element={<News key='sports' pageSize={pageSize} category={'sports'} country={'in'}/>}
+                      element={<News key='sports' pageSize={this.pageSize} category={'sports'} country={'in'}/>}
                     />
             <Route
                       path="/technology"
-                      element={<News key='technology' pageSize={pageSize} category={'technology'} country={'in'}/>}
+                      element={<News key='technology' pageSize={this.pageSize} category={'technology'} country={'in'}/>}
                     />
         </Routes>
         
