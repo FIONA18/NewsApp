@@ -335,10 +335,14 @@ export class News extends Component {
   }
   async GetNewsData() {
     console.log("Inside GetNewsData")
+    this.props.setProgress(10);
     let url = `https://newsapi.org/v2/top-headlines?country=${this.props.country}&category=${this.props.category}&apiKey=dfd0b5411e3344a0a4ee010fc40631de&page=${this.state.page}&pageSize=${this.props.pageSize}`;
     let data = await fetch(url);
+    this.props.setProgress(30);
     let jsonData = await data.json();
+    this.props.setProgress(70);
     console.log("Got the json data")
+    this.props.setProgress(90);
     await this.setState({
       articles: jsonData.articles,
       totalArticles: jsonData.totalResults,
@@ -346,6 +350,7 @@ export class News extends Component {
     });
     console.log("Updated state")
     console.log("Exit GetNewsData")
+    this.props.setProgress(100);
   }
   // ReachedEndOfPage() {
   //   return (
@@ -401,13 +406,13 @@ export class News extends Component {
           </div>
         </h1>
 
-        {this.state.loading && <h1>Loading... </h1>} 
+        {this.state.loading && <h2>Loading... </h2>} 
 
         <InfiniteScroll
           dataLength={this.state.articles.length}
           next={this.fetchMoreData}
           hasMore={ this.state.articles.length !== this.state.totalArticles}
-          loader={<h1>Loading... </h1>}
+          loader={<h2>Loading... </h2>}
         >
           <div  className="container">
           <div className="row align-items-start">
